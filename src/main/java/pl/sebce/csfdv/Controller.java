@@ -30,6 +30,7 @@ public class Controller {
         mainMenu = new MainMenu();
         dataPanel = new DataPanel();
         navigationPanel.addNavigationListener(frameDisplay);
+        navigationPanel.addNavigationListener(dataPanel);
         mainMenu.setController(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

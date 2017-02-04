@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -17,6 +19,17 @@ public class Project {
 
     @XmlElement
     private Integer referencePointDistance;
+
+    @XmlElement
+    private List<Integer> selectedFrames = new ArrayList<Integer>();
+
+    public List<Integer> getSelectedFrames() {
+        return selectedFrames;
+    }
+
+    public void setSelectedFrames(List<Integer> selectedFrames) {
+        this.selectedFrames = selectedFrames;
+    }
 
     public String getImagesDirectory() {
         return imagesDirectory;
