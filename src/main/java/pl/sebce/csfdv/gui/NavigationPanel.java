@@ -4,6 +4,7 @@ import pl.sebce.csfdv.domain.Project;
 import pl.sebce.csfdv.events.NavigationListener;
 
 import java.awt.Dimension;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,10 +55,20 @@ public class NavigationPanel extends JPanel {
         right10.addActionListener(e -> moveFrameIdx(10));
         right100.addActionListener(e -> moveFrameIdx(100));
         lastFrame.addActionListener(e -> setFrameIdx(numberOfFrames - 1));
+
+        disableAllComponents();
     }
 
-    public void setProject(Project project) {
+    public void openProject(Project project) {
         this.project = project;
+        enableAllComponents();
+    }
+
+    public void closeProject() {
+        project = null;
+        setNumberOfFrames(0);
+        setFrameIdx(0);
+        disableAllComponents();
     }
 
     public void addNavigationListener(NavigationListener navigationListener) {
@@ -91,5 +102,13 @@ public class NavigationPanel extends JPanel {
 
     private void moveFrameIdx(int delta) {
         setFrameIdx(currentFrameIdx + delta);
+    }
+
+    private void enableAllComponents() {
+        Arrays.stream(getComponents()).forEach(component -> {component.setEnabled(true);});
+    }
+
+    private void disableAllComponents() {
+        Arrays.stream(getComponents()).forEach(component -> {component.setEnabled(false);});
     }
 }

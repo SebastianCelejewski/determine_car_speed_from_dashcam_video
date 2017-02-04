@@ -32,6 +32,7 @@ public class MainMenu extends JMenuBar {
         menuFileSaveAs.addActionListener(e -> saveProjectAs());
         menuFileSave.addActionListener(e -> saveProject());
         menuFileOpen.addActionListener(e -> openProject());
+        menuFileClose.addActionListener(e -> closeProject());
     }
 
     public void setController(Controller controller) {
@@ -92,5 +93,10 @@ public class MainMenu extends JMenuBar {
             }
             projectFilename = fileChooser.getSelectedFile().getAbsolutePath();
         }
+    }
+
+    private void closeProject() {
+        projectFilename = null;
+        controller.closeProject();
     }
 }

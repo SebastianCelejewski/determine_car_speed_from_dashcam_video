@@ -12,11 +12,33 @@ public class Project {
     @XmlElement
     private String imagesDirectory;
 
+    @XmlElement
+    private Integer fps;
+
+    @XmlElement
+    private Integer referencePointDistance;
+
     public String getImagesDirectory() {
         return imagesDirectory;
     }
 
     public void setImagesDirectory(String imagesDirectory) {
         this.imagesDirectory = imagesDirectory;
+    }
+
+    public Integer getFps() {
+        return fps;
+    }
+
+    public void setFps(Integer fps) {
+        this.fps = fps;
+    }
+
+    public Integer getReferencePointDistance() {
+        return referencePointDistance;
+    }
+
+    public void setReferencePointDistance(Integer referencePointDistance) {
+        this.referencePointDistance = referencePointDistance;
     }
 }

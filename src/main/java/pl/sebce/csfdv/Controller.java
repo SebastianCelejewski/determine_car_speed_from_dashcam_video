@@ -1,10 +1,7 @@
 package pl.sebce.csfdv;
 
 import pl.sebce.csfdv.domain.Project;
-import pl.sebce.csfdv.gui.FrameDisplay;
-import pl.sebce.csfdv.gui.MainFrame;
-import pl.sebce.csfdv.gui.MainMenu;
-import pl.sebce.csfdv.gui.NavigationPanel;
+import pl.sebce.csfdv.gui.*;
 import pl.sebce.csfdv.utils.FileOperations;
 
 import java.awt.*;
@@ -17,6 +14,7 @@ public class Controller {
 
     private NavigationPanel navigationPanel;
     private FrameDisplay frameDisplay;
+    private DataPanel dataPanel = new DataPanel();
     private MainMenu mainMenu;
     private MainFrame mainFrame;
 
@@ -30,11 +28,12 @@ public class Controller {
         navigationPanel = new NavigationPanel();
         frameDisplay = new FrameDisplay();
         mainMenu = new MainMenu();
+        dataPanel = new DataPanel();
         navigationPanel.addNavigationListener(frameDisplay);
         mainMenu.setController(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame = new MainFrame(navigationPanel, frameDisplay, mainMenu);
+        mainFrame = new MainFrame(navigationPanel, frameDisplay, dataPanel, mainMenu);
         mainFrame.setBounds(0, 0, screenSize.width, screenSize.height);
         mainFrame.setVisible(true);
     }
@@ -62,13 +61,20 @@ public class Controller {
         fileOperations.saveProject(file, project);
     }
 
+    public void closeProject() {
+        dataPanel.closeProject();
+        frameDisplay.closeProject();
+        navigationPanel.closeProject();
+    }
+
     private void initializeGUI(File[] files) {
         navigationPanel.setNumberOfFrames(files.length);
-        navigationPanel.setProject(project);
-        frameDisplay.setProject(project);
+        navigationPanel.openProject(project);
+        frameDisplay.openProject(project);
         frameDisplay.setFiles(files);
         frameDisplay.setFrameIdx(0);
-
         mainFrame.repaint();
+        dataPanel.openProject(project);
     }
+
 }

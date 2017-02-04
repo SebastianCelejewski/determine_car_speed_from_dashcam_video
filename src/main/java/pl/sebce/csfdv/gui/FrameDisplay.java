@@ -29,8 +29,17 @@ public class FrameDisplay extends JPanel implements NavigationListener, MouseMot
         this.addMouseMotionListener(this);
     }
 
-    public void setProject(Project project) {
+    public void openProject(Project project) {
+
         this.project = project;
+    }
+
+    public void closeProject() {
+        project = null;
+        movieClipFrames = null;
+        currentFrameIdx = 0;
+        label.setIcon(null);
+        this.repaint();
     }
 
     public void setFiles(File[] movieClipFrames) {

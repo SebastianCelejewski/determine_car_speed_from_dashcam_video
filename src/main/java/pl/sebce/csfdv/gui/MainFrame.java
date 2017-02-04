@@ -7,11 +7,12 @@ import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame(NavigationPanel navigationPanel, FrameDisplay frameDisplay, MainMenu mainMenu) {
+    public MainFrame(NavigationPanel navigationPanel, FrameDisplay frameDisplay, DataPanel dataPanel, MainMenu mainMenu) {
         JPanel infoPanel = new JPanel();
 
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(navigationPanel);
+        infoPanel.add(dataPanel);
 
         this.setLayout(new BorderLayout());
         this.setJMenuBar(mainMenu);
