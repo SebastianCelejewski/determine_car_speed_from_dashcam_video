@@ -23,6 +23,16 @@ public class Project {
     @XmlElement
     private List<Integer> selectedFrames = new ArrayList<Integer>();
 
+    private int numberOfFrames;
+
+    public int getNumberOfFrames() {
+        return numberOfFrames;
+    }
+
+    public void setNumberOfFrames(int numberOfFrames) {
+        this.numberOfFrames = numberOfFrames;
+    }
+
     public List<Integer> getSelectedFrames() {
         return selectedFrames;
     }

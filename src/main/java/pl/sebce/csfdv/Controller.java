@@ -14,9 +14,10 @@ public class Controller {
 
     private NavigationPanel navigationPanel;
     private FrameDisplay frameDisplay;
-    private DataPanel dataPanel = new DataPanel();
+    private DataPanel dataPanel;
     private MainMenu mainMenu;
     private MainFrame mainFrame;
+    private ResultsPanel resultsPanel;
 
     public static void main(String[] args) {
         new Controller();
@@ -29,12 +30,14 @@ public class Controller {
         frameDisplay = new FrameDisplay();
         mainMenu = new MainMenu();
         dataPanel = new DataPanel();
+        resultsPanel = new ResultsPanel();
         navigationPanel.addNavigationListener(frameDisplay);
         navigationPanel.addNavigationListener(dataPanel);
         mainMenu.setController(this);
+        dataPanel.addProjectDataListener(resultsPanel);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame = new MainFrame(navigationPanel, frameDisplay, dataPanel, mainMenu);
+        mainFrame = new MainFrame(mainMenu, navigationPanel, frameDisplay, dataPanel, resultsPanel);
         mainFrame.setBounds(0, 0, screenSize.width, screenSize.height);
         mainFrame.setVisible(true);
     }
@@ -66,16 +69,18 @@ public class Controller {
         dataPanel.closeProject();
         frameDisplay.closeProject();
         navigationPanel.closeProject();
+        resultsPanel.closeProject();
     }
 
     private void initializeGUI(File[] files) {
         navigationPanel.setNumberOfFrames(files.length);
+        project.setNumberOfFrames(files.length);
         navigationPanel.openProject(project);
         frameDisplay.openProject(project);
         frameDisplay.setFiles(files);
         frameDisplay.setFrameIdx(0);
         mainFrame.repaint();
         dataPanel.openProject(project);
+        resultsPanel.openProject(project);
     }
-
 }

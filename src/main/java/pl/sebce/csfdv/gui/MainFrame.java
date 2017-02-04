@@ -7,18 +7,23 @@ import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame(NavigationPanel navigationPanel, FrameDisplay frameDisplay, DataPanel dataPanel, MainMenu mainMenu) {
+    public MainFrame(MainMenu mainMenu, NavigationPanel navigationPanel, FrameDisplay frameDisplay, DataPanel dataPanel, ResultsPanel resultsPanel) {
         JPanel infoPanel = new JPanel();
+        JPanel viewPanel = new JPanel();
 
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(navigationPanel);
         infoPanel.add(dataPanel);
 
+        viewPanel.setLayout(new GridBagLayout());
+        viewPanel.add(frameDisplay, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 1, 1));
+        viewPanel.add(resultsPanel, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 1, 1));
+
         this.setLayout(new BorderLayout());
         this.setJMenuBar(mainMenu);
 
-        this.add(frameDisplay, BorderLayout.CENTER);
         this.add(infoPanel, BorderLayout.NORTH);
+        this.add(viewPanel, BorderLayout.CENTER);
 
         this.setTitle("KOD Counter");
 
@@ -28,8 +33,5 @@ public class MainFrame extends JFrame {
                 System.exit(0);
             }
         });
-
     }
-
-
 }
