@@ -1,13 +1,15 @@
-package pl.sebce.csfdv.utils;
+package pl.sebcel.csfdv.utils;
 
-import pl.sebce.csfdv.domain.Project;
+import pl.sebcel.csfdv.domain.Project;
 
 import java.io.File;
+import javax.inject.Singleton;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+@Singleton
 public class FileOperations {
 
     public void saveProject(File file, Project project) {

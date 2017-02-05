@@ -4,3 +4,4 @@ gradlew.bat
 /gradle/
 /.gradle/
 /build/
+/out/

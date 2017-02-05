@@ -1,19 +1,22 @@
-package pl.sebce.csfdv.gui;
+package pl.sebcel.csfdv.gui;
 
-import pl.sebce.csfdv.domain.Project;
-import pl.sebce.csfdv.events.NavigationListener;
-import pl.sebce.csfdv.events.ProjectDataListener;
-import pl.sebce.csfdv.events.ValueChangeListener;
+import pl.sebcel.csfdv.domain.Project;
+import pl.sebcel.csfdv.events.*;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.enterprise.event.Event;
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
 
-public class DataPanel extends JPanel implements ValueChangeListener, ChangeListener, NavigationListener {
+
+@Singleton
+public class DataPanel extends JPanel implements ValueChangeListener, ChangeListener {
 
     private Project project;
 
@@ -23,9 +26,11 @@ public class DataPanel extends JPanel implements ValueChangeListener, ChangeList
 
     private int frameIdx;
 
-    private Set<ProjectDataListener> dataListeners = new HashSet<>();
+    @Inject
+    private Event<ProjectChanged> projectChangedEvent;
 
-    public DataPanel() {
+    @PostConstruct
+    public void initialize() {
 
         fpsTextField.setEnabled(false);
         fpsTextField.setPreferredSize(new Dimension(50, 21));
@@ -48,21 +53,16 @@ public class DataPanel extends JPanel implements ValueChangeListener, ChangeList
         this.add(frameSelectedCheckBox);
     }
 
-    public void addProjectDataListener(ProjectDataListener listener) {
-        dataListeners.add(listener);
-    }
-
-    public void openProject(Project project) {
-        this.project = project;
+    public void openProject(@Observes ProjectOpened projectOpened) {
+        this.project = projectOpened.getProject();
         setValue(fpsTextField, project.getFps());
         setValue(distanceTextField, project.getReferencePointDistance());
         fpsTextField.setEnabled(true);
         distanceTextField.setEnabled(true);
         frameSelectedCheckBox.setEnabled(true);
-        notifyListeners();
     }
 
-    public void closeProject() {
+    public void closeProject(@Observes ProjectClosed projectClosed) {
         fpsTextField.setText("");
         distanceTextField.setText("");
         fpsTextField.setEnabled(false);
@@ -88,9 +88,8 @@ public class DataPanel extends JPanel implements ValueChangeListener, ChangeList
         }
     }
 
-    @Override
-    public void setFrameIdx(int frameIdx) {
-        this.frameIdx = frameIdx;
+    public void setFrameIdx(@Observes FrameSelected frameSelected) {
+        this.frameIdx = frameSelected.getFrameIdx();
         Integer value = (Integer) frameIdx;
         boolean isSelected = project.getSelectedFrames().contains(value);
         frameSelectedCheckBox.setSelected(isSelected);
@@ -107,10 +106,7 @@ public class DataPanel extends JPanel implements ValueChangeListener, ChangeList
         } else {
             project.getSelectedFrames().remove((Integer) frameIdx);
         }
-        notifyListeners();
-    }
 
-    private void notifyListeners() {
-        dataListeners.forEach(x -> x.projectDataChanged());
+        projectChangedEvent.fire(new ProjectChanged());
     }
 }

@@ -1,13 +1,33 @@
-package pl.sebce.csfdv.gui;
+package pl.sebcel.csfdv.gui;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+@Singleton
 public class MainFrame extends JFrame {
 
-    public MainFrame(MainMenu mainMenu, NavigationPanel navigationPanel, FrameDisplay frameDisplay, DataPanel dataPanel, ResultsPanel resultsPanel) {
+    @Inject
+    private MainMenu mainMenu;
+
+    @Inject
+    private NavigationPanel navigationPanel;
+
+    @Inject
+    private FrameDisplay frameDisplay;
+
+    @Inject
+    private DataPanel dataPanel;
+
+    @Inject
+    private ResultsPanel resultsPanel;
+
+    @PostConstruct
+    public void initialize() {
         JPanel infoPanel = new JPanel();
         JPanel viewPanel = new JPanel();
 

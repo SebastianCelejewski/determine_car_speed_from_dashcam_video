@@ -1,49 +1,53 @@
-package pl.sebce.csfdv.gui;
+package pl.sebcel.csfdv.gui;
 
-import pl.sebce.csfdv.domain.Project;
-import pl.sebce.csfdv.events.NavigationListener;
+import pl.sebcel.csfdv.events.FrameSelected;
+import pl.sebcel.csfdv.events.ProjectClosed;
+import pl.sebcel.csfdv.events.ProjectOpened;
 
 import java.io.File;
 import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
+import javax.inject.Singleton;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class FrameDisplay extends JPanel implements NavigationListener, MouseMotionListener {
+@Singleton
+public class FrameDisplay extends JPanel implements MouseMotionListener {
 
     private static final long serialVersionUID = 1L;
 
     private JLabel label = new JLabel();
 
     private File[] movieClipFrames;
-    private int currentFrameIdx;
-    private Project project;
 
-    public FrameDisplay() {
+    private int currentFrameIdx;
+
+    @PostConstruct
+    public void initialize() {
         this.setLayout(new BorderLayout());
         this.add(label, BorderLayout.CENTER);
         this.addMouseMotionListener(this);
     }
 
-    public void openProject(Project project) {
-
-        this.project = project;
+    public void openProject(@Observes ProjectOpened projectOpened) {
+        this.movieClipFrames = projectOpened.getFiles();
+        this.setFrameIdx(0);
     }
 
-    public void closeProject() {
-        project = null;
+    public void closeProject(@Observes ProjectClosed projectClosed) {
         movieClipFrames = null;
         currentFrameIdx = 0;
         label.setIcon(null);
         this.repaint();
     }
 
-    public void setFiles(File[] movieClipFrames) {
-        this.movieClipFrames = movieClipFrames;
+    public void setFrameIdx(@Observes FrameSelected frameSelected) {
+        this.setFrameIdx(frameSelected.getFrameIdx());
     }
 
     public void setFrameIdx(int frameIdx) {
@@ -52,15 +56,12 @@ public class FrameDisplay extends JPanel implements NavigationListener, MouseMot
     }
 
     public void repaint() {
+        super.repaint();
         if (movieClipFrames != null) {
             File file = movieClipFrames[currentFrameIdx];
             ImageIcon icon = new ImageIcon(file.getAbsolutePath());
             label.setIcon(icon);
         }
-    }
-
-    public void paint(Graphics g) {
-        super.paint(g);
     }
 
     @Override

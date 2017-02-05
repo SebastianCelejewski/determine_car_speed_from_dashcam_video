@@ -1,4 +1,4 @@
-package pl.sebce.csfdv.domain;
+package pl.sebcel.csfdv.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,17 +23,7 @@ public class Project {
     @XmlElement
     private List<Integer> selectedFrames = new ArrayList<Integer>();
 
-    private int numberOfFrames;
-
-    public int getNumberOfFrames() {
-        return numberOfFrames;
-    }
-
-    public void setNumberOfFrames(int numberOfFrames) {
-        this.numberOfFrames = numberOfFrames;
-    }
-
-    public List<Integer> getSelectedFrames() {
+   public List<Integer> getSelectedFrames() {
         return selectedFrames;
     }
 

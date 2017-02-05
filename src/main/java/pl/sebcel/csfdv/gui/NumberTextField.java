@@ -1,6 +1,6 @@
-package pl.sebce.csfdv.gui;
+package pl.sebcel.csfdv.gui;
 
-import pl.sebce.csfdv.events.ValueChangeListener;
+import pl.sebcel.csfdv.events.ValueChangeListener;
 
 import javax.swing.*;
 import java.awt.*;

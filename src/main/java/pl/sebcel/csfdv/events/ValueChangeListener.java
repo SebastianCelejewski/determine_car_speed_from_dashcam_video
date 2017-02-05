@@ -1,4 +1,4 @@
-package pl.sebce.csfdv.events;
+package pl.sebcel.csfdv.events;
 
 public interface ValueChangeListener {
 

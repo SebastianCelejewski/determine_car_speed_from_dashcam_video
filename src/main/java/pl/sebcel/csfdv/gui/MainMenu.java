@@ -1,13 +1,18 @@
-package pl.sebce.csfdv.gui;
+package pl.sebcel.csfdv.gui;
 
-import pl.sebce.csfdv.Controller;
+import pl.sebcel.csfdv.Controller;
+import pl.sebcel.csfdv.events.ProjectClosed;
+import pl.sebcel.csfdv.events.ProjectOpened;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 
+@Singleton
 public class MainMenu extends JMenuBar {
-    private static final long serialVersionUID = 1L;
 
     private JMenu menuFile = new JMenu("File");
     private JMenuItem menuFileNew = new JMenuItem("New");
@@ -16,10 +21,13 @@ public class MainMenu extends JMenuBar {
     private JMenuItem menuFileSaveAs = new JMenuItem("Save As");
     private JMenuItem menuFileClose = new JMenuItem("Close");
 
-    private Controller controller;
     private String projectFilename;
 
-    public MainMenu() {
+    @Inject
+    private Controller controller;
+
+    @PostConstruct
+    public void initialize() {
         menuFile.add(menuFileNew);
         menuFile.add(menuFileOpen);
         menuFile.add(menuFileSave);
@@ -33,10 +41,6 @@ public class MainMenu extends JMenuBar {
         menuFileSave.addActionListener(e -> saveProject());
         menuFileOpen.addActionListener(e -> openProject());
         menuFileClose.addActionListener(e -> closeProject());
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
 
     private void newProject() {

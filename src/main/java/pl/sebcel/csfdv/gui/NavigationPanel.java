@@ -1,18 +1,25 @@
-package pl.sebce.csfdv.gui;
+package pl.sebcel.csfdv.gui;
 
-import pl.sebce.csfdv.domain.Project;
-import pl.sebce.csfdv.events.NavigationListener;
+import pl.sebcel.csfdv.events.FrameSelected;
+import pl.sebcel.csfdv.events.ProjectClosed;
+import pl.sebcel.csfdv.events.ProjectOpened;
 
 import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+@Singleton
 public class NavigationPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -28,12 +35,13 @@ public class NavigationPanel extends JPanel {
     private JButton lastFrame = new JButton("Last");
 
     private int numberOfFrames = 0;
-    private Project project;
     private int currentFrameIdx = 0;
 
-    private Set<NavigationListener> navigationListeners = new HashSet<>();
+    @Inject
+    private Event<FrameSelected> frameSelectedEvent;
 
-    public NavigationPanel() {
+    @PostConstruct
+    public void initialize() {
         setBorder(new TitledBorder("Navigation"));
         frameInfoLabel.setPreferredSize(new Dimension(120, 21));
 
@@ -59,25 +67,16 @@ public class NavigationPanel extends JPanel {
         disableAllComponents();
     }
 
-    public void openProject(Project project) {
-        this.project = project;
+    public void openProject(@Observes ProjectOpened projectOpened) {
+        this.numberOfFrames = projectOpened.getFiles().length;
+        this.frameInfoLabel.setText("Frame " + currentFrameIdx + " of " + numberOfFrames);
         enableAllComponents();
     }
 
-    public void closeProject() {
-        project = null;
-        setNumberOfFrames(0);
+    public void closeProject(@Observes ProjectClosed projectClosed) {
+        this.numberOfFrames = 0;
         setFrameIdx(0);
         disableAllComponents();
-    }
-
-    public void addNavigationListener(NavigationListener navigationListener) {
-        navigationListeners.add(navigationListener);
-    }
-
-    public void setNumberOfFrames(int numberOfFrames) {
-        this.numberOfFrames = numberOfFrames;
-        this.frameInfoLabel.setText("Frame " + currentFrameIdx + " of " + numberOfFrames);
     }
 
     private void setFrameIdx(Integer frameIdx) {
@@ -92,12 +91,10 @@ public class NavigationPanel extends JPanel {
             currentFrameIdx = numberOfFrames - 1;
         }
 
-        for (NavigationListener navigationListener : navigationListeners) {
-            navigationListener.setFrameIdx(currentFrameIdx);
-        }
-
         this.frameInfoLabel.setText("Frame " + currentFrameIdx + " of " + numberOfFrames);
         this.repaint();
+
+        frameSelectedEvent.fire(new FrameSelected(frameIdx));
     }
 
     private void moveFrameIdx(int delta) {

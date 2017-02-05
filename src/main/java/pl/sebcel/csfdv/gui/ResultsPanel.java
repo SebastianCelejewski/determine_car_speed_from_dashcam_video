@@ -1,34 +1,52 @@
-package pl.sebce.csfdv.gui;
+package pl.sebcel.csfdv.gui;
 
-import pl.sebce.csfdv.domain.Project;
-import pl.sebce.csfdv.events.ProjectDataListener;
+import pl.sebcel.csfdv.domain.Project;
+import pl.sebcel.csfdv.events.ProjectClosed;
+import pl.sebcel.csfdv.events.ProjectChanged;
+import pl.sebcel.csfdv.events.ProjectOpened;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
+import javax.inject.Singleton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.*;
 
-public class ResultsPanel extends JPanel implements ProjectDataListener, MouseMotionListener{
+@Singleton
+public class ResultsPanel extends JPanel implements MouseMotionListener{
 
     private Project project;
     private java.util.List<Point> data;
+    private int numberOfFrames;
     private Point crosshair;
     private int frameIdx;
     private Integer speed;
 
-    public ResultsPanel() {
+    @PostConstruct
+    public void initialize() {
         this.setBorder(BorderFactory.createEtchedBorder());
         this.addMouseMotionListener(this);
     }
 
-    public void openProject(Project project) {
-        this.project = project;
-        projectDataChanged();
+    public void openProject(@Observes ProjectOpened projectOpened) {
+        this.project = projectOpened.getProject();
+        this.numberOfFrames = projectOpened.getFiles().length;
+        recalculate();
     }
 
-    public void closeProject() {
+    public void closeProject(@Observes ProjectClosed projectClosed) {
         this.project = null;
+        this.data = null;
+        this.numberOfFrames = 0;
+        this.frameIdx = 0;
+        this.crosshair = null;
+        recalculate();
+    }
+
+    public void projectDataChanged(@Observes ProjectChanged projectChanged) {
+        recalculate();
     }
 
     public void paint(Graphics g) {
@@ -52,8 +70,7 @@ public class ResultsPanel extends JPanel implements ProjectDataListener, MouseMo
         }
     }
 
-    @Override
-    public void projectDataChanged() {
+    private void recalculate() {
         data = new ArrayList<>();
 
         if (project != null && project.getSelectedFrames() != null && project.getSelectedFrames().size() > 1 && project.getFps() != null && project.getReferencePointDistance() != null) {
@@ -71,12 +88,12 @@ public class ResultsPanel extends JPanel implements ProjectDataListener, MouseMo
     }
 
     private int fx(int x) {
-        double relX = (double) x / project.getNumberOfFrames();
+        double relX = (double) x / numberOfFrames;
         return (int) (this.getWidth() * relX);
     }
 
     private int xf(int x) {
-        return (int) ((double) x * project.getNumberOfFrames() / this.getWidth());
+        return (int) ((double) x * numberOfFrames / this.getWidth());
     }
 
     private int fy(int y) {
