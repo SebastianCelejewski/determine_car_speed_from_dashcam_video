@@ -19,7 +19,7 @@ Enjoy.
 
 ### Example 1
 
-![https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_01.PNG?raw=true](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_01.PNG?raw=true)
+![https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_01.PNG?raw=true](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_01.PNG?raw=true){:height="36px" width="36px"}
 
 ![](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/chart_01.PNG?raw=true)
 
