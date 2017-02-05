@@ -14,3 +14,17 @@ Usage:
 8. The application should calculate the speed of the car.
 
 Enjoy.
+
+## Examples
+
+### Example 1
+
+![https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_01.PNG?raw=true](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_01.PNG?raw=true)
+
+![](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/chart_01.PNG?raw=true)
+
+### Example 2
+
+![https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_02.PNG?raw=true](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/movie_clip_02.PNG?raw=true)
+
+![](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/blob/master/doc/chart_02.PNG?raw=true)
