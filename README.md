@@ -3,6 +3,7 @@
 ![asdfasdf](https://github.com/SebastianCelejewski/determine_car_speed_from_dashcam_video/raw/master/doc/screenshot.png)
 
 Usage:
+
 1. Get a dashcam video (e.g. download it from YouTube using http://www.clipconverter.cc).
 2. Convert video into frames (e.g. using Corel Video Studio).
 3. Run CSFDV application.
