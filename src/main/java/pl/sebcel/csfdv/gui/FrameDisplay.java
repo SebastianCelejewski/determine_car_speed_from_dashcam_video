@@ -4,17 +4,15 @@ import pl.sebcel.csfdv.events.FrameSelected;
 import pl.sebcel.csfdv.events.ProjectClosed;
 import pl.sebcel.csfdv.events.ProjectOpened;
 
+import java.awt.*;
 import java.io.File;
-import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
 import javax.inject.Singleton;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 @Singleton
 public class FrameDisplay extends JPanel implements MouseMotionListener {
@@ -29,6 +27,7 @@ public class FrameDisplay extends JPanel implements MouseMotionListener {
 
     @PostConstruct
     public void initialize() {
+        this.setBorder(BorderFactory.createTitledBorder("Frame Display"));
         this.setLayout(new BorderLayout());
         this.add(label, BorderLayout.CENTER);
         this.addMouseMotionListener(this);
@@ -52,16 +51,18 @@ public class FrameDisplay extends JPanel implements MouseMotionListener {
 
     public void setFrameIdx(int frameIdx) {
         this.currentFrameIdx = frameIdx;
-        this.repaint();
-    }
 
-    public void repaint() {
-        super.repaint();
         if (movieClipFrames != null) {
             File file = movieClipFrames[currentFrameIdx];
             ImageIcon icon = new ImageIcon(file.getAbsolutePath());
             label.setIcon(icon);
+//            this.setSize(icon.getIconWidth(), icon.getIconHeight());
+//            label.setSize(icon.getIconWidth(), icon.getIconHeight());
+//            this.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+//            label.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
         }
+
+        this.repaint();
     }
 
     @Override

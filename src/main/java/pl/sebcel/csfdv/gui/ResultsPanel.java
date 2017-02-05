@@ -15,7 +15,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.*;
 
 @Singleton
-public class ResultsPanel extends JPanel implements MouseMotionListener{
+public class ResultsPanel extends JPanel implements MouseMotionListener {
 
     private Project project;
     private java.util.List<Point> data;
@@ -26,7 +26,8 @@ public class ResultsPanel extends JPanel implements MouseMotionListener{
 
     @PostConstruct
     public void initialize() {
-        this.setBorder(BorderFactory.createEtchedBorder());
+        this.setBorder(BorderFactory.createTitledBorder("Results"));
+        this.setLayout(new BorderLayout());
         this.addMouseMotionListener(this);
     }
 
@@ -50,8 +51,7 @@ public class ResultsPanel extends JPanel implements MouseMotionListener{
     }
 
     public void paint(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        super.paint(g);
 
         if (crosshair != null) {
             g.setColor(Color.green);

@@ -28,30 +28,27 @@ public class MainFrame extends JFrame {
 
     @PostConstruct
     public void initialize() {
-        JPanel infoPanel = new JPanel();
-        JPanel viewPanel = new JPanel();
-
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.add(navigationPanel);
-        infoPanel.add(dataPanel);
-
-        viewPanel.setLayout(new GridBagLayout());
-        viewPanel.add(frameDisplay, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 1, 1));
-        viewPanel.add(resultsPanel, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1), 1, 1));
-
-        this.setLayout(new BorderLayout());
-        this.setJMenuBar(mainMenu);
-
-        this.add(infoPanel, BorderLayout.NORTH);
-        this.add(viewPanel, BorderLayout.CENTER);
-
-        this.setTitle("KOD Counter");
-
+        this.setTitle("Determine car speed from dashcam video");
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.add(navigationPanel);
+        infoPanel.add(dataPanel);
+
+        JSplitPane viewPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        viewPanel.add(frameDisplay);
+        viewPanel.add(resultsPanel);
+        viewPanel.setDividerLocation(0.5);
+
+        this.setLayout(new BorderLayout());
+        this.setJMenuBar(mainMenu);
+        this.add(infoPanel, BorderLayout.NORTH);
+        this.add(viewPanel, BorderLayout.CENTER);
     }
 }
