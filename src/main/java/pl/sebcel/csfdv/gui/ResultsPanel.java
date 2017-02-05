@@ -1,8 +1,8 @@
 package pl.sebcel.csfdv.gui;
 
 import pl.sebcel.csfdv.domain.Project;
-import pl.sebcel.csfdv.events.ProjectClosed;
 import pl.sebcel.csfdv.events.ProjectChanged;
+import pl.sebcel.csfdv.events.ProjectClosed;
 import pl.sebcel.csfdv.events.ProjectOpened;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.util.*;
+import java.util.ArrayList;
 
 @Singleton
 public class ResultsPanel extends JPanel implements MouseMotionListener {
@@ -59,13 +59,13 @@ public class ResultsPanel extends JPanel implements MouseMotionListener {
             g.drawLine(0, crosshair.y, getWidth(), crosshair.y);
 
             g.setColor(Color.black);
-            g.drawString("Frame idx: "+frameIdx, 20, 50);
+            g.drawString("Frame idx: " + frameIdx, 20, 50);
             g.drawString("Car speed: " + (speed != null ? speed : "-") + " km/h", 20, 70);
         }
 
         if (data != null) {
             for (Point p : data) {
-                g.fillOval(fx(p.x), fy(p.y), 5,5);
+                g.fillOval(fx(p.x), fy(p.y), 5, 5);
             }
         }
     }
@@ -74,15 +74,16 @@ public class ResultsPanel extends JPanel implements MouseMotionListener {
         data = new ArrayList<>();
 
         if (project != null && project.getSelectedFrames() != null && project.getSelectedFrames().size() > 1 && project.getFps() != null && project.getReferencePointDistance() != null) {
-            project.getSelectedFrames().sort((x,y) -> (x - y));
+            project.getSelectedFrames().sort((x, y) -> (x - y));
             for (int i = 1; i < project.getSelectedFrames().size(); i++) {
-                int startIdx = project.getSelectedFrames().get(i-1);
+                int startIdx = project.getSelectedFrames().get(i - 1);
                 int endIdx = project.getSelectedFrames().get(i);
                 int timeInFrames = endIdx - startIdx;
                 double timeInSeconds = (double) timeInFrames / project.getFps();
                 double speedInMetersPerSecond = project.getReferencePointDistance() / timeInSeconds;
                 int speedInKPH = (int) (speedInMetersPerSecond * 3.6);
                 data.add(new Point(endIdx, speedInKPH));
+                System.out.println(endIdx + ";" + speedInKPH);
             }
         }
     }
@@ -106,6 +107,9 @@ public class ResultsPanel extends JPanel implements MouseMotionListener {
     }
 
     private Integer getData(int x) {
+        if (data == null) {
+            return null;
+        }
         if (data.get(0).getX() > x) {
             return null;
         }
