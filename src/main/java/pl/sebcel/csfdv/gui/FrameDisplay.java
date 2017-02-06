@@ -56,10 +56,10 @@ public class FrameDisplay extends JPanel implements MouseMotionListener {
             File file = movieClipFrames[currentFrameIdx];
             ImageIcon icon = new ImageIcon(file.getAbsolutePath());
             label.setIcon(icon);
-//            this.setSize(icon.getIconWidth(), icon.getIconHeight());
-//            label.setSize(icon.getIconWidth(), icon.getIconHeight());
-//            this.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
-//            label.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+            this.setSize(icon.getIconWidth(), icon.getIconHeight());
+            label.setSize(icon.getIconWidth(), icon.getIconHeight());
+            this.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+            label.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
         }
 
         this.repaint();

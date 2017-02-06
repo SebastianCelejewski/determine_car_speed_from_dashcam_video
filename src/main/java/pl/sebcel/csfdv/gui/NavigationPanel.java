@@ -4,7 +4,7 @@ import pl.sebcel.csfdv.events.FrameSelected;
 import pl.sebcel.csfdv.events.ProjectClosed;
 import pl.sebcel.csfdv.events.ProjectOpened;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -79,7 +79,16 @@ public class NavigationPanel extends JPanel {
         disableAllComponents();
     }
 
+    public void setFrameIdx(@Observes FrameSelected frameSelected) {
+        setFrameIdxInternal(frameSelected.getFrameIdx());
+    }
+
     private void setFrameIdx(Integer frameIdx) {
+        setFrameIdxInternal(frameIdx);
+        frameSelectedEvent.fire(new FrameSelected(frameIdx));
+    }
+
+    private void setFrameIdxInternal(Integer frameIdx) {
         if (frameIdx == null) {
             return;
         }
@@ -93,8 +102,6 @@ public class NavigationPanel extends JPanel {
 
         this.frameInfoLabel.setText("Frame " + currentFrameIdx + " of " + numberOfFrames);
         this.repaint();
-
-        frameSelectedEvent.fire(new FrameSelected(frameIdx));
     }
 
     private void moveFrameIdx(int delta) {

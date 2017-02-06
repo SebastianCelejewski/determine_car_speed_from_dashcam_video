@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
     private DataPanel dataPanel;
 
     @Inject
-    private ResultsPanel resultsPanel;
+    private ResultsTable resultsTable;
 
     @PostConstruct
     public void initialize() {
@@ -41,10 +41,10 @@ public class MainFrame extends JFrame {
         infoPanel.add(navigationPanel);
         infoPanel.add(dataPanel);
 
-        JSplitPane viewPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        JPanel viewPanel = new JPanel();
+        viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.X_AXIS));
         viewPanel.add(frameDisplay);
-        viewPanel.add(resultsPanel);
-        viewPanel.setDividerLocation(0.5);
+        viewPanel.add(resultsTable);
 
         this.setLayout(new BorderLayout());
         this.setJMenuBar(mainMenu);
