@@ -19,10 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+/**
+ * Provides interface to navigate through the movie clip
+ */
 @Singleton
 public class NavigationPanel extends JPanel {
-
-    private static final long serialVersionUID = 1L;
 
     private JButton firstFrame = new JButton("First");
     private JButton left100 = new JButton("<<<");
@@ -88,6 +89,11 @@ public class NavigationPanel extends JPanel {
         frameSelectedEvent.fire(new FrameSelected(frameIdx));
     }
 
+    private void moveFrameIdx(int delta) {
+        setFrameIdxInternal(currentFrameIdx + delta);
+        frameSelectedEvent.fire(new FrameSelected(currentFrameIdx));
+    }
+
     private void setFrameIdxInternal(Integer frameIdx) {
         if (frameIdx == null) {
             return;
@@ -104,9 +110,6 @@ public class NavigationPanel extends JPanel {
         this.repaint();
     }
 
-    private void moveFrameIdx(int delta) {
-        setFrameIdx(currentFrameIdx + delta);
-    }
 
     private void enableAllComponents() {
         Arrays.stream(getComponents()).forEach(component -> {component.setEnabled(true);});

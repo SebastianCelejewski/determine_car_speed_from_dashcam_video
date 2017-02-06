@@ -7,6 +7,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents CSFDV project, i.e. data required to display video frames, mark reference frames, etc.
+ * It does not contain any calculation results.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Project {

@@ -1,13 +1,18 @@
 package pl.sebcel.csfdv.gui;
 
-import pl.sebcel.csfdv.events.ValueChangeListener;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * A text field customized to store integers
+ */
 public class NumberTextField extends JTextField implements KeyListener {
+
+    public interface ValueChangeListener {
+        void valueChanged(Object source, Integer value);
+    }
 
     private Integer value;
     private ValueChangeListener valueChangeListener;
@@ -26,7 +31,6 @@ public class NumberTextField extends JTextField implements KeyListener {
 
     public void setValue(Integer value) {
         this.value = value;
-        System.out.println("Setting value " + value);
         if (value != null) {
             this.setText(Integer.toString(value));
         } else {
@@ -35,13 +39,10 @@ public class NumberTextField extends JTextField implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
     public void keyReleased(KeyEvent e) {

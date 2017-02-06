@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Main application window
+ */
 @Singleton
 public class MainFrame extends JFrame {
 

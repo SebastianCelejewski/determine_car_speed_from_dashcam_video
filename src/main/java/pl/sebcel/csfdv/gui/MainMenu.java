@@ -11,6 +11,9 @@ import javax.inject.Singleton;
 import javax.swing.*;
 import java.io.File;
 
+/**
+ * Menu for creation, opening, saving, and closing projects
+ */
 @Singleton
 public class MainMenu extends JMenuBar {
 

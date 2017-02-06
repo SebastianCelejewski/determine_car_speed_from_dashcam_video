@@ -6,7 +6,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import pl.sebcel.csfdv.domain.SpeedDataRow;
@@ -18,6 +17,9 @@ import javax.inject.Singleton;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Presents calculation results as a chart
+ */
 @Singleton
 public class ResultsChart extends JPanel {
 
@@ -28,20 +30,14 @@ public class ResultsChart extends JPanel {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createTitledBorder("Results Chart"));
 
-        xylineChart = ChartFactory.createXYLineChart(
-                null,
-                "Time, s" ,
-                "Speed, km/h" ,
-                new XYSeriesCollection( ),
-                PlotOrientation.VERTICAL ,
-                true , true , false);
+        xylineChart = ChartFactory.createXYLineChart(null, "Time, s" , "Speed, km/h" , new XYSeriesCollection( ), PlotOrientation.VERTICAL , true , true , false);
 
         ChartPanel chartPanel = new ChartPanel( xylineChart );
         chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
-        final XYPlot plot = xylineChart.getXYPlot( );
+        XYPlot plot = xylineChart.getXYPlot( );
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
         renderer.setSeriesPaint( 0 , Color.RED );
-//        renderer.setSeriesStroke( 0 , new BasicStroke( 4.0f ) );
+        renderer.setSeriesLinesVisible(0, false);
         plot.setRenderer( renderer );
 
         this.add(chartPanel, BorderLayout.CENTER );
@@ -53,7 +49,7 @@ public class ResultsChart extends JPanel {
             speedPointsSeries.add(p.getTime(), p.getSpeed());
         }
 
-        final XYSeriesCollection dataset = new XYSeriesCollection( );
+        XYSeriesCollection dataset = new XYSeriesCollection( );
         dataset.addSeries( speedPointsSeries );
         xylineChart.getXYPlot().setDataset(dataset);
 

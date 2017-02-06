@@ -12,11 +12,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.*;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.awt.*;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Application entry point + manages project creation, opening, saving, and closing
+ */
 @ApplicationScoped
 public class Controller {
 

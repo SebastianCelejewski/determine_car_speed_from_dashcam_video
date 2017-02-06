@@ -9,30 +9,29 @@ import pl.sebcel.csfdv.events.ResultsRecalculated;
 import javax.enterprise.event.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.event.Event;
 
+/**
+ * Recalculates car speed every time a project is loaded or modified
+ */
 @Singleton
 public class CalculationEngine {
-
-    private Project project;
 
     @Inject
     private Event<ResultsRecalculated> resultsRecalculatedEvent;
 
     public void recalculate(@Observes ProjectOpened projectOpened) {
-        this.project = projectOpened.getProject();
-        recalculate();
+        recalculate(projectOpened.getProject());
     }
 
     public void recalculate(@Observes ProjectChanged projectChanged) {
-        recalculate();
+        recalculate(projectChanged.getProject());
     }
 
-    private void recalculate() {
-        List<SpeedDataRow> data = new ArrayList<SpeedDataRow>();
+    private void recalculate(Project project) {
+        List<SpeedDataRow> data = new ArrayList<>();
         if (project != null && project.getSelectedFrames() != null && project.getSelectedFrames().size() > 1 && project.getFps() != null && project.getReferencePointDistance() != null) {
             project.getSelectedFrames().sort((x, y) -> (x - y));
             for (int i = 1; i < project.getSelectedFrames().size(); i++) {

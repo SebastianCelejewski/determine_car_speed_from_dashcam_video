@@ -11,6 +11,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
+/**
+ * Presents calculation results as a table
+ */
 @Singleton
 public class ResultsTable extends JPanel {
 
@@ -33,14 +36,10 @@ public class ResultsTable extends JPanel {
         this.add(scrollPane, BorderLayout.CENTER);
         this.scrollPane.setViewportView(table);
         this.table.setModel(tableModel);
-        this.repaint();
         this.table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                int selectedFrameIdx = (int) tableModel.getValueAt(e.getFirstIndex(), 0);
-                frameSelectedEvent.fire(new FrameSelected(selectedFrameIdx));
-            }
+        this.table.getSelectionModel().addListSelectionListener(e -> {
+            int selectedFrameIdx = (int) tableModel.getValueAt(e.getFirstIndex(), 0);
+            frameSelectedEvent.fire(new FrameSelected(selectedFrameIdx));
         });
     }
 }

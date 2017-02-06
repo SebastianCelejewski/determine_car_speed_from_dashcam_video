@@ -1,5 +1,8 @@
 package pl.sebcel.csfdv.domain;
 
+/**
+ * Represents a single data point in calculated car speed results.
+ */
 public class SpeedDataRow {
 
     private int frameIdx;

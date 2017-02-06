@@ -14,23 +14,21 @@ import javax.enterprise.event.Observes;
 import javax.inject.Singleton;
 import javax.swing.*;
 
+/**
+ * Displays frames of a dashcam video clip
+ */
 @Singleton
-public class FrameDisplay extends JPanel implements MouseMotionListener {
-
-    private static final long serialVersionUID = 1L;
+public class FrameDisplay extends JPanel {
 
     private JLabel label = new JLabel();
 
     private File[] movieClipFrames;
-
-    private int currentFrameIdx;
 
     @PostConstruct
     public void initialize() {
         this.setBorder(BorderFactory.createTitledBorder("Frame Display"));
         this.setLayout(new BorderLayout());
         this.add(label, BorderLayout.CENTER);
-        this.addMouseMotionListener(this);
     }
 
     public void openProject(@Observes ProjectOpened projectOpened) {
@@ -40,7 +38,6 @@ public class FrameDisplay extends JPanel implements MouseMotionListener {
 
     public void closeProject(@Observes ProjectClosed projectClosed) {
         movieClipFrames = null;
-        currentFrameIdx = 0;
         label.setIcon(null);
         this.repaint();
     }
@@ -50,28 +47,13 @@ public class FrameDisplay extends JPanel implements MouseMotionListener {
     }
 
     public void setFrameIdx(int frameIdx) {
-        this.currentFrameIdx = frameIdx;
-
         if (movieClipFrames != null) {
-            File file = movieClipFrames[currentFrameIdx];
+            File file = movieClipFrames[frameIdx];
             ImageIcon icon = new ImageIcon(file.getAbsolutePath());
             label.setIcon(icon);
-            this.setSize(icon.getIconWidth(), icon.getIconHeight());
             label.setSize(icon.getIconWidth(), icon.getIconHeight());
-            this.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
-            label.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
         }
 
-        this.repaint();
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        this.repaint();
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
         this.repaint();
     }
 }

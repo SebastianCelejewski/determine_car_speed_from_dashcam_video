@@ -10,7 +10,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashSet;
@@ -84,9 +83,7 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
     }
 
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-
-    }
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
     @Override
     public void addTableModelListener(TableModelListener l) {
