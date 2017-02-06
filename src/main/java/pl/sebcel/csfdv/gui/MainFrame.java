@@ -26,6 +26,9 @@ public class MainFrame extends JFrame {
     @Inject
     private ResultsTable resultsTable;
 
+    @Inject
+    private ResultsChart resultsChart;
+
     @PostConstruct
     public void initialize() {
         this.setTitle("Determine car speed from dashcam video");
@@ -45,6 +48,7 @@ public class MainFrame extends JFrame {
         viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.X_AXIS));
         viewPanel.add(frameDisplay);
         viewPanel.add(resultsTable);
+        viewPanel.add(resultsChart);
 
         this.setLayout(new BorderLayout());
         this.setJMenuBar(mainMenu);

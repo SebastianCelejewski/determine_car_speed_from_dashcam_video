@@ -27,6 +27,8 @@ public class ResultsTable extends JPanel {
     @PostConstruct
     public void initialize() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createTitledBorder("Results Table"));
+
         this.add(buttonsPanel, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
         this.scrollPane.setViewportView(table);

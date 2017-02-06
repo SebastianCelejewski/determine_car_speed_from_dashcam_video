@@ -36,7 +36,7 @@ public class Controller {
 
     public void initialize(@Observes ContainerInitialized event, @Parameters List<String> parameters) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainFrame.setBounds(0, 0, screenSize.width, screenSize.height);
+        mainFrame.setBounds(0, 0, screenSize.width, 650);
         mainFrame.setVisible(true);
     }
 

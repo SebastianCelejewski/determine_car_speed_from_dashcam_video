@@ -1,6 +1,7 @@
-package pl.sebcel.csfdv.utils;
+package pl.sebcel.csfdv;
 
 import pl.sebcel.csfdv.domain.Project;
+import pl.sebcel.csfdv.domain.SpeedDataRow;
 import pl.sebcel.csfdv.events.ProjectChanged;
 import pl.sebcel.csfdv.events.ProjectOpened;
 import pl.sebcel.csfdv.events.ResultsRecalculated;
@@ -31,20 +32,18 @@ public class CalculationEngine {
     }
 
     private void recalculate() {
-        List<Point> data = new ArrayList<Point>();
-        System.out.println("B " + project);
+        List<SpeedDataRow> data = new ArrayList<SpeedDataRow>();
         if (project != null && project.getSelectedFrames() != null && project.getSelectedFrames().size() > 1 && project.getFps() != null && project.getReferencePointDistance() != null) {
-            System.out.println("C");
             project.getSelectedFrames().sort((x, y) -> (x - y));
             for (int i = 1; i < project.getSelectedFrames().size(); i++) {
                 int startIdx = project.getSelectedFrames().get(i - 1);
                 int endIdx = project.getSelectedFrames().get(i);
                 int timeInFrames = endIdx - startIdx;
-                double timeInSeconds = (double) timeInFrames / project.getFps();
-                double speedInMetersPerSecond = project.getReferencePointDistance() / timeInSeconds;
+                double timeInSeconds = (double) endIdx / project.getFps();
+                double durationInSeconds = (double) timeInFrames / project.getFps();
+                double speedInMetersPerSecond = project.getReferencePointDistance() / durationInSeconds;
                 int speedInKPH = (int) (speedInMetersPerSecond * 3.6);
-                data.add(new Point(endIdx, speedInKPH));
-                System.out.println(endIdx + ";" + speedInKPH);
+                data.add(new SpeedDataRow(endIdx, timeInSeconds, speedInKPH));
             }
         }
 

@@ -1,5 +1,6 @@
 package pl.sebcel.csfdv.gui;
 
+import pl.sebcel.csfdv.domain.SpeedDataRow;
 import pl.sebcel.csfdv.events.ResultsRecalculated;
 
 import javax.enterprise.event.Observes;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Singleton
 public class ResultsTableModel extends DefaultTableColumnModel implements TableModel {
 
-    private java.util.List<Point> data;
+    private java.util.List<SpeedDataRow> data;
     private Set<TableModelListener> listeners = new HashSet<>();
     private NumberFormat nf = new DecimalFormat("0.00");
 
@@ -69,14 +70,14 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Point dataPoint = data.get(rowIndex);
+        SpeedDataRow dataPoint = data.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return dataPoint.x;
+                return dataPoint.getFrameIdx();
             case 1:
-                return nf.format((double) dataPoint.x / 15);
+                return nf.format(dataPoint.getTime());
             case 2:
-                return dataPoint.y;
+                return dataPoint.getSpeed();
             default:
                 return "";
         }
@@ -98,7 +99,6 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
     }
 
     public void setData(@Observes ResultsRecalculated resultsRecalculated) {
-        System.out.println("A");
         this.data = resultsRecalculated.getData();
         for (TableModelListener l : listeners) {
             l.tableChanged(new TableModelEvent(this));
