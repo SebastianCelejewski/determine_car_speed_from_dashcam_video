@@ -35,9 +35,16 @@ public class ResultsChart extends JPanel {
         ChartPanel chartPanel = new ChartPanel( xylineChart );
         chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
         XYPlot plot = xylineChart.getXYPlot( );
+        plot.setBackgroundPaint(Color.white);
+        plot.setDomainGridlinePaint(Color.GRAY);
+        plot.setRangeGridlinePaint(Color.GRAY);
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
         renderer.setSeriesPaint( 0 , Color.RED );
         renderer.setSeriesLinesVisible(0, false);
+        renderer.setSeriesShapesVisible(0, true);
+        renderer.setSeriesPaint( 1 , Color.BLUE );
+        renderer.setSeriesLinesVisible(1, true);
+        renderer.setSeriesShapesVisible(1, false);
         plot.setRenderer( renderer );
 
         this.add(chartPanel, BorderLayout.CENTER );
@@ -45,12 +52,16 @@ public class ResultsChart extends JPanel {
 
     public void setData(@Observes ResultsRecalculated resultsRecalculated) {
         XYSeries speedPointsSeries = new XYSeries( "Data points" );
+        XYSeries averagedSpeedLineSeries = new XYSeries( "Averaged" );
+
         for (SpeedDataRow p : resultsRecalculated.getData()) {
             speedPointsSeries.add(p.getTime(), p.getSpeed());
+            averagedSpeedLineSeries.add(p.getTime(), p.getAveragedSpeed());
         }
 
         XYSeriesCollection dataset = new XYSeriesCollection( );
         dataset.addSeries( speedPointsSeries );
+        dataset.addSeries( averagedSpeedLineSeries);
         xylineChart.getXYPlot().setDataset(dataset);
 
         this.repaint();

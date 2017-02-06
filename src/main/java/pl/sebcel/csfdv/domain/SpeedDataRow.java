@@ -8,11 +8,13 @@ public class SpeedDataRow {
     private int frameIdx;
     private double time;
     private double speed;
+    private double averagedSpeed;
 
-    public SpeedDataRow(int frameIdx, double time, double speed) {
+    public SpeedDataRow(int frameIdx, double time, double speed, double averagedSpeed) {
         this.frameIdx = frameIdx;
         this.time = time;
         this.speed = speed;
+        this.averagedSpeed = averagedSpeed;
     }
 
     public int getFrameIdx() {
@@ -26,4 +28,6 @@ public class SpeedDataRow {
     public double getSpeed() {
         return speed;
     }
+
+    public double getAveragedSpeed() { return averagedSpeed; }
 }

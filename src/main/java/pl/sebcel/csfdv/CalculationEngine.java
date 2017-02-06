@@ -9,8 +9,11 @@ import pl.sebcel.csfdv.events.ResultsRecalculated;
 import javax.enterprise.event.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.stream.Collectors;
 import javax.enterprise.event.Event;
 
 /**
@@ -34,6 +37,7 @@ public class CalculationEngine {
         List<SpeedDataRow> data = new ArrayList<>();
         if (project != null && project.getSelectedFrames() != null && project.getSelectedFrames().size() > 1 && project.getFps() != null && project.getReferencePointDistance() != null) {
             project.getSelectedFrames().sort((x, y) -> (x - y));
+            Queue<Integer> averagedSpeedBuffer = new ArrayDeque<Integer>();
             for (int i = 1; i < project.getSelectedFrames().size(); i++) {
                 int startIdx = project.getSelectedFrames().get(i - 1);
                 int endIdx = project.getSelectedFrames().get(i);
@@ -42,7 +46,12 @@ public class CalculationEngine {
                 double durationInSeconds = (double) timeInFrames / project.getFps();
                 double speedInMetersPerSecond = project.getReferencePointDistance() / durationInSeconds;
                 int speedInKPH = (int) (speedInMetersPerSecond * 3.6);
-                data.add(new SpeedDataRow(endIdx, timeInSeconds, speedInKPH));
+                averagedSpeedBuffer.add(speedInKPH);
+                if (averagedSpeedBuffer.size() > 5) {
+                    averagedSpeedBuffer.poll();
+                }
+                double averagedSpeedInKPH = averagedSpeedBuffer.stream().collect(Collectors.averagingInt(x -> x.intValue()));
+                data.add(new SpeedDataRow(endIdx, timeInSeconds, speedInKPH, averagedSpeedInKPH));
             }
         }
 
