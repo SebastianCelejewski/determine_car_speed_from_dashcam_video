@@ -37,21 +37,24 @@ public class CalculationEngine {
         List<SpeedDataRow> data = new ArrayList<>();
         if (project != null && project.getSelectedFrames() != null && project.getSelectedFrames().size() > 1 && project.getFps() != null && project.getReferencePointDistance() != null) {
             project.getSelectedFrames().sort((x, y) -> (x - y));
-            Queue<Integer> averagedSpeedBuffer = new ArrayDeque<Integer>();
             for (int i = 1; i < project.getSelectedFrames().size(); i++) {
                 int startIdx = project.getSelectedFrames().get(i - 1);
                 int endIdx = project.getSelectedFrames().get(i);
                 int timeInFrames = endIdx - startIdx;
-                double timeInSeconds = (double) endIdx / project.getFps();
+                int timePointInFrames = startIdx + timeInFrames / 2;
+                double timeInSeconds = (double) timePointInFrames / project.getFps();
                 double durationInSeconds = (double) timeInFrames / project.getFps();
                 double speedInMetersPerSecond = project.getReferencePointDistance() / durationInSeconds;
                 int speedInKPH = (int) (speedInMetersPerSecond * 3.6);
-                averagedSpeedBuffer.add(speedInKPH);
-                if (averagedSpeedBuffer.size() > 5) {
-                    averagedSpeedBuffer.poll();
+                data.add(new SpeedDataRow(timePointInFrames, timeInSeconds, speedInKPH, speedInKPH));
+            }
+            for (int i = 2; i < data.size() - 5; i++) {
+                Queue<Double> averagingBuffer = new ArrayDeque<>();
+                for (int j = i-2; j <= i+2; j++) {
+                    averagingBuffer.add(data.get(j).getSpeed());
                 }
-                double averagedSpeedInKPH = averagedSpeedBuffer.stream().collect(Collectors.averagingInt(x -> x.intValue()));
-                data.add(new SpeedDataRow(endIdx, timeInSeconds, speedInKPH, averagedSpeedInKPH));
+                double averagedSpeedInKPH = averagingBuffer.stream().collect(Collectors.averagingInt(x -> x.intValue()));
+                data.get(i).setAveragedSpeed(averagedSpeedInKPH);
             }
         }
 
