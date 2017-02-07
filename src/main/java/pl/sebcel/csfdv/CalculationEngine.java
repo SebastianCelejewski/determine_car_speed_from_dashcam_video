@@ -25,11 +25,11 @@ public class CalculationEngine {
     @Inject
     private Event<ResultsRecalculated> resultsRecalculatedEvent;
 
-    public void recalculate(@Observes ProjectOpened projectOpened) {
+    public void onProjectOpened(@Observes ProjectOpened projectOpened) {
         recalculate(projectOpened.getProject());
     }
 
-    public void recalculate(@Observes ProjectChanged projectChanged) {
+    public void onProjectChanged(@Observes ProjectChanged projectChanged) {
         recalculate(projectChanged.getProject());
     }
 

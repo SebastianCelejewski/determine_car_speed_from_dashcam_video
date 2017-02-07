@@ -1,6 +1,7 @@
 package pl.sebcel.csfdv.gui;
 
 import pl.sebcel.csfdv.domain.SpeedDataRow;
+import pl.sebcel.csfdv.events.ProjectClosed;
 import pl.sebcel.csfdv.events.ResultsRecalculated;
 
 import javax.enterprise.event.Observes;
@@ -12,13 +13,14 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 @Singleton
 public class ResultsTableModel extends DefaultTableColumnModel implements TableModel {
 
-    private java.util.List<SpeedDataRow> data;
+    private java.util.List<SpeedDataRow> data = new ArrayList<>();
     private Set<TableModelListener> listeners = new HashSet<>();
     private NumberFormat nf = new DecimalFormat("0.00");
 
@@ -32,6 +34,16 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
         TableColumn column = new TableColumn(0, width);
         column.setHeaderValue(name);
         this.addColumn(column);
+    }
+
+    public void onResultsRecalculated(@Observes ResultsRecalculated resultsRecalculated) {
+        this.data = resultsRecalculated.getData();
+        notifyListeners();
+    }
+
+    public void onProjectClosed(@Observes ProjectClosed projectClosed) {
+        this.data = new ArrayList<>();
+        notifyListeners();
     }
 
     @Override
@@ -95,8 +107,7 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
         listeners.remove(l);
     }
 
-    public void setData(@Observes ResultsRecalculated resultsRecalculated) {
-        this.data = resultsRecalculated.getData();
+    private void notifyListeners() {
         for (TableModelListener l : listeners) {
             l.tableChanged(new TableModelEvent(this));
         }

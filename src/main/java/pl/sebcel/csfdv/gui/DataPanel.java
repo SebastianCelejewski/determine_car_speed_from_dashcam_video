@@ -55,7 +55,7 @@ public class DataPanel extends JPanel implements NumberTextField.ValueChangeList
         this.add(frameSelectedCheckBox);
     }
 
-    public void openProject(@Observes ProjectOpened projectOpened) {
+    public void onProjectOpened(@Observes ProjectOpened projectOpened) {
         this.project = projectOpened.getProject();
         fpsTextField.setValue(project.getFps());
         distanceTextField.setValue(project.getReferencePointDistance());
@@ -64,7 +64,7 @@ public class DataPanel extends JPanel implements NumberTextField.ValueChangeList
         frameSelectedCheckBox.setEnabled(true);
     }
 
-    public void closeProject(@Observes ProjectClosed projectClosed) {
+    public void onProjectClosed(@Observes ProjectClosed projectClosed) {
         fpsTextField.setText("");
         distanceTextField.setText("");
         fpsTextField.setEnabled(false);
@@ -72,7 +72,7 @@ public class DataPanel extends JPanel implements NumberTextField.ValueChangeList
         frameSelectedCheckBox.setEnabled(false);
     }
 
-    public void setFrameIdx(@Observes FrameSelected frameSelected) {
+    public void onFrameSelected(@Observes FrameSelected frameSelected) {
         this.frameIdx = frameSelected.getFrameIdx();
         Integer value = (Integer) frameIdx;
         boolean isSelected = project.getSelectedFrames().contains(value);

@@ -68,19 +68,19 @@ public class NavigationPanel extends JPanel {
         disableAllComponents();
     }
 
-    public void openProject(@Observes ProjectOpened projectOpened) {
+    public void onProjectOpened(@Observes ProjectOpened projectOpened) {
         this.numberOfFrames = projectOpened.getFiles().length;
         this.frameInfoLabel.setText("Frame " + currentFrameIdx + " of " + numberOfFrames);
         enableAllComponents();
     }
 
-    public void closeProject(@Observes ProjectClosed projectClosed) {
+    public void onProjectClosed(@Observes ProjectClosed projectClosed) {
         this.numberOfFrames = 0;
         setFrameIdx(0);
         disableAllComponents();
     }
 
-    public void setFrameIdx(@Observes FrameSelected frameSelected) {
+    public void onFrameSelected(@Observes FrameSelected frameSelected) {
         setFrameIdxInternal(frameSelected.getFrameIdx());
     }
 

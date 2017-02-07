@@ -31,18 +31,18 @@ public class FrameDisplay extends JPanel {
         this.add(label, BorderLayout.CENTER);
     }
 
-    public void openProject(@Observes ProjectOpened projectOpened) {
+    public void onProjectOpened(@Observes ProjectOpened projectOpened) {
         this.movieClipFrames = projectOpened.getFiles();
         this.setFrameIdx(0);
     }
 
-    public void closeProject(@Observes ProjectClosed projectClosed) {
+    public void onProjectClosed(@Observes ProjectClosed projectClosed) {
         movieClipFrames = null;
         label.setIcon(null);
         this.repaint();
     }
 
-    public void setFrameIdx(@Observes FrameSelected frameSelected) {
+    public void onFrameSelected(@Observes FrameSelected frameSelected) {
         this.setFrameIdx(frameSelected.getFrameIdx());
     }
 
