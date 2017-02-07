@@ -5,6 +5,7 @@ import pl.sebcel.csfdv.events.ProjectClosed;
 import pl.sebcel.csfdv.events.ProjectOpened;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -64,6 +65,18 @@ public class NavigationPanel extends JPanel {
         right10.addActionListener(e -> moveFrameIdx(10));
         right100.addActionListener(e -> moveFrameIdx(100));
         lastFrame.addActionListener(e -> setFrameIdx(numberOfFrames - 1));
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            if (e.getID() == KeyEvent.KEY_PRESSED) {
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    moveFrameIdx(-1);
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    moveFrameIdx(1);
+                }
+            }
+            return false;
+        });
 
         disableAllComponents();
     }
