@@ -28,6 +28,7 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
         addColumn("Frame idx", 10);
         addColumn("Time, s", 10);
         addColumn("Speed, km/h", 20);
+        addColumn("Avg. speed, km/h", 20);
     }
 
     private void addColumn(String name, int width) {
@@ -69,6 +70,8 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
                 return double.class;
             case 2:
                 return double.class;
+            case 3:
+                return double.class;
             default:
                 return String.class;
         }
@@ -89,6 +92,8 @@ public class ResultsTableModel extends DefaultTableColumnModel implements TableM
                 return nf.format(dataPoint.getTime());
             case 2:
                 return dataPoint.getSpeed();
+            case 3:
+                return dataPoint.getAveragedSpeed();
             default:
                 return "";
         }

@@ -8,7 +8,6 @@ public class SpeedDataRow {
     private int frameIdx;
     private double time;
     private double speed;
-
     private double averagedSpeed;
 
     public SpeedDataRow(int frameIdx, double time, double speed, double averagedSpeed) {
