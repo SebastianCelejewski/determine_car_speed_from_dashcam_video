@@ -38,8 +38,10 @@ public class ResultsTable extends JPanel {
         this.table.setModel(tableModel);
         this.table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.table.getSelectionModel().addListSelectionListener(e -> {
-            int selectedFrameIdx = (int) tableModel.getValueAt(table.getSelectedRow(), 0);
-            frameSelectedEvent.fire(new FrameSelected(selectedFrameIdx));
+            if (table.getSelectedRow() != -1) {
+                int selectedFrameIdx = (int) tableModel.getValueAt(table.getSelectedRow(), 0);
+                frameSelectedEvent.fire(new FrameSelected(selectedFrameIdx));
+            }
         });
     }
 }
