@@ -5,7 +5,7 @@
 Usage:
 
 1. Get a dashcam video (e.g. download it from YouTube using http://www.clipconverter.cc).
-2. Convert video into frames (e.g. using Corel Video Studio).
+2. Convert video into frames (e.g. using Corel Video Studio). You may also use frames from /sample directory.
 3. Run CSFDV application.
 4. Create a new project and point to a directory where your video frames reside.
 5. Navigate through the frames and select those for which the lane separation line crosses the frame boundary.
